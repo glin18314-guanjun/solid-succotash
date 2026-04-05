@@ -445,6 +445,37 @@
             color: white;
         }
 
+        .footer-details-btn {
+            background: transparent;
+            color: #d1d5db;
+            border: none;
+            padding: 0.3rem 0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            transition: var(--transition);
+            text-decoration: underline;
+            display: block;
+        }
+
+        .footer-details-btn:hover {
+            color: white;
+        }
+
+        .footer-details-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            margin-top: 0;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        .footer-details-content.expanded {
+            max-height: 500px;
+            margin-top: 0.5rem;
+        }
+
         .footer-bottom {
             border-top: 1px solid #374151;
             padding-top: 1.5rem;
@@ -1009,18 +1040,30 @@
                     <a onclick="showPage('features')">Features</a>
                     <a onclick="showPage('pricing')">Pricing</a>
                     <a onclick="showPage('download')">Download</a>
+                    <button class="footer-details-btn" onclick="toggleFooterDetails(this)">Learn More</button>
+                    <div class="footer-details-content">
+                        <p>Explore our comprehensive suite of features designed to revolutionize your file management. From AI-powered classification to advanced search capabilities, FileGenius has everything you need.</p>
+                    </div>
                 </div>
                 <div class="footer-section">
                     <h4 id="footer-company">Company</h4>
                     <a onclick="showPage('about')">About</a>
                     <a onclick="showPage('blog')">Blog</a>
                     <a onclick="showPage('contact')">Contact</a>
+                    <button class="footer-details-btn" onclick="toggleFooterDetails(this)">Learn More</button>
+                    <div class="footer-details-content">
+                        <p>Learn about FileGenius and the team behind it. Discover our mission, vision, and commitment to creating innovative file management solutions.</p>
+                    </div>
                 </div>
                 <div class="footer-section">
                     <h4 id="footer-legal">Legal</h4>
                     <a onclick="showPage('privacy')">Privacy</a>
                     <a onclick="showPage('terms')">Terms</a>
                     <a onclick="showPage('license')">License</a>
+                    <button class="footer-details-btn" onclick="toggleFooterDetails(this)">Learn More</button>
+                    <div class="footer-details-content">
+                        <p>Review our privacy policy, terms of service, and licensing information. We're committed to transparency and protecting your rights.</p>
+                    </div>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -1358,6 +1401,13 @@
 
         // Toggle details
         function toggleDetails(button) {
+            const detailsContent = button.nextElementSibling;
+            detailsContent.classList.toggle('expanded');
+            button.textContent = detailsContent.classList.contains('expanded') ? 'Show Less' : 'Learn More';
+        }
+
+        // Toggle footer details
+        function toggleFooterDetails(button) {
             const detailsContent = button.nextElementSibling;
             detailsContent.classList.toggle('expanded');
             button.textContent = detailsContent.classList.contains('expanded') ? 'Show Less' : 'Learn More';
