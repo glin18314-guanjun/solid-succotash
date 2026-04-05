@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- AI Classification Icon -->
+  <defs>
+    <symbol id="icon-ai" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 7v10"/>
+      <path d="M8 12h8"/>
+      <circle cx="12" cy="5" r="1.5"/>
+      <circle cx="12" cy="19" r="1.5"/>
+    </symbol>
+
+    <!-- Speed/Lightning Icon -->
+    <symbol id="icon-speed" viewBox="0 0 24 24">
+      <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8Z"/>
+    </symbol>
+
+    <!-- Security/Lock Icon -->
+    <symbol id="icon-security" viewBox="0 0 24 24">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      <circle cx="12" cy="16" r="1"/>
+    </symbol>
+
+    <!-- Undo Icon -->
+    <symbol id="icon-undo" viewBox="0 0 24 24">
+      <path d="M3 7v6h6"/>
+      <path d="M21 17a8 8 0 0 1-15-1"/>
+    </symbol>
+
+    <!-- Redo Icon -->
+    <symbol id="icon-redo" viewBox="0 0 24 24">
+      <path d="M21 7v6h-6"/>
+      <path d="M3 17a8 8 0 0 0 15-1"/>
+    </symbol>
+
+    <!-- Search Icon -->
+    <symbol id="icon-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/>
+      <path d="m21 21-4.35-4.35"/>
+    </symbol>
+
+    <!-- Customize Icon -->
+    <symbol id="icon-customize" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="1"/>
+      <circle cx="19" cy="12" r="1"/>
+      <circle cx="5" cy="12" r="1"/>
+      <path d="M12 5v14"/>
+      <path d="M5 12h14"/>
+    </symbol>
+
+    <!-- Download Icon -->
+    <symbol id="icon-download" viewBox="0 0 24 24">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </symbol>
+
+    <!-- Features Icon -->
+    <symbol id="icon-features" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="7" height="7"/>
+      <rect x="14" y="3" width="7" height="7"/>
+      <rect x="14" y="14" width="7" height="7"/>
+      <rect x="3" y="14" width="7" height="7"/>
+    </symbol>
+
+    <!-- Pricing Icon -->
+    <symbol id="icon-pricing" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 6v12"/>
+      <path d="M9 8h6a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2H9"/>
+    </symbol>
+
+    <!-- About Icon -->
+    <symbol id="icon-about" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 16v-4"/>
+      <path d="M12 8h.01"/>
+    </symbol>
+
+    <!-- Blog Icon -->
+    <symbol id="icon-blog" viewBox="0 0 24 24">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <path d="M6.5 2H20v10H6.5A2.5 2.5 0 0 1 4 9.5v-5A2.5 2.5 0 0 1 6.5 2z"/>
+    </symbol>
+
+    <!-- Contact Icon -->
+    <symbol id="icon-contact" viewBox="0 0 24 24">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </symbol>
+
+    <!-- Privacy Icon -->
+    <symbol id="icon-privacy" viewBox="0 0 24 24">
+      <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+      <path d="M12 11v4"/>
+      <path d="M12 19h.01"/>
+    </symbol>
+
+    <!-- Terms Icon -->
+    <symbol id="icon-terms" viewBox="0 0 24 24">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="12" y1="13" x2="12" y2="17"/>
+      <line x1="9" y1="15" x2="15" y2="15"/>
+    </symbol>
+
+    <!-- License Icon -->
+    <symbol id="icon-license" viewBox="0 0 24 24">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+      <polyline points="14 2 14 8 20 8"/>
+      <line x1="9" y1="13" x2="15" y2="13"/>
+      <line x1="9" y1="17" x2="15" y2="17"/>
+    </symbol>
+
+    <!-- Linux Icon -->
+    <symbol id="icon-linux" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M12 6c-1.5 0-2 1-2 2s.5 2 2 2 2-1 2-2-.5-2-2-2z"/>
+      <path d="M9 11c-1 0-1.5.5-1.5 1.5S8 14 9 14s1.5-.5 1.5-1.5S10 11 9 11z"/>
+      <path d="M15 11c-1 0-1.5.5-1.5 1.5s.5 1.5 1.5 1.5 1.5-.5 1.5-1.5-.5-1.5-1.5-1.5z"/>
+      <path d="M12 16c-1 0-2 .5-2 1.5v1c0 .5.5 1 1 1h2c.5 0 1-.5 1-1v-1c0-1-1-1.5-2-1.5z"/>
+    </symbol>
+
+    <!-- macOS Icon -->
+    <symbol id="icon-macos" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M8 10c0-1.5 1-2.5 2-2.5s1.5.5 1.5 1.5"/>
+      <path d="M12.5 10c0-1.5 1-2.5 2-2.5s1.5.5 1.5 1.5"/>
+      <path d="M7 14c0 2 2 3 5 3s5-1 5-3"/>
+    </symbol>
+
+    <!-- Windows Icon -->
+    <symbol id="icon-windows" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="8" height="8"/>
+      <rect x="13" y="3" width="8" height="8"/>
+      <rect x="3" y="13" width="8" height="8"/>
+      <rect x="13" y="13" width="8" height="8"/>
+    </symbol>
+
+    <!-- Email Icon -->
+    <symbol id="icon-email" viewBox="0 0 24 24">
+      <rect x="2" y="4" width="20" height="16" rx="2"/>
+      <path d="m22 6-10 7L2 6"/>
+    </symbol>
+
+    <!-- Menu Icon -->
+    <symbol id="icon-menu" viewBox="0 0 24 24">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </symbol>
+
+    <!-- Close Icon -->
+    <symbol id="icon-close" viewBox="0 0 24 24">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+
+    <!-- Moon Icon (Dark Mode) -->
+    <symbol id="icon-moon" viewBox="0 0 24 24">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </symbol>
+
+    <!-- Sun Icon (Light Mode) -->
+    <symbol id="icon-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </symbol>
+
+    <!-- Arrow Right Icon -->
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+      <line x1="5" y1="12" x2="19" y2="12"/>
+      <polyline points="12 5 19 12 12 19"/>
+    </symbol>
+
+    <!-- Star Icon -->
+    <symbol id="icon-star" viewBox="0 0 24 24">
+      <polygon points="12 2 15.09 10.26 24 10.26 17.55 16.74 19.64 25 12 19.52 4.36 25 6.45 16.74 0 10.26 8.91 10.26 12 2"/>
+    </symbol>
+
+    <!-- Check Icon -->
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+  </defs>
+</svg>
