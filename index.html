@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FileGenius - AI-Powered File Organization</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+            --text: #374151;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        body.dark-mode {
+            background: #0f172a;
+            color: #e2e8f0;
+            --light: #1e293b;
+            --border: #334155;
+            --text: #cbd5e1;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .header {
+            background: #1e293b;
+            border-bottom-color: #334155;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+            flex: 1;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .nav a:hover {
+            color: var(--primary);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        select {
+            padding: 0.4rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 0.4rem;
+            background: white;
+            color: var(--text);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        body.dark-mode select {
+            background: #334155;
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+
+        select:hover {
+            border-color: var(--primary);
+        }
+
+        .btn-icon {
+            width: 2.2rem;
+            height: 2.2rem;
+            border: none;
+            border-radius: 0.4rem;
+            background: var(--light);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            font-size: 1rem;
+        }
+
+        .btn-icon:hover {
+            background: var(--border);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .page {
+            display: none;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+            color: var(--dark);
+        }
+
+        body.dark-mode .hero h1 {
+            color: #f1f5f9;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        body.dark-mode .hero p {
+            color: #94a3b8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.7rem 1.8rem;
+            border: none;
+            border-radius: 0.4rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+
+        body.dark-mode .section-title {
+            color: #f1f5f9;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.6rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .feature-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        body.dark-mode .feature-card h3 {
+            color: #f1f5f9;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        body.dark-mode .feature-card p {
+            color: #94a3b8;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.6rem;
+            border: 2px solid var(--border);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .pricing-card {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        body.dark-mode .pricing-card h3 {
+            color: #f1f5f9;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin: 0.8rem 0;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 1.2rem 0;
+            text-align: left;
+        }
+
+        .pricing-card li {
+            padding: 0.4rem 0;
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+
+        body.dark-mode .pricing-card li {
+            color: #94a3b8;
+        }
+
+        /* FAQ */
+        .faq-item {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 0.6rem;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .faq-item {
+            background: #1e293b;
+            border-color: #334155;
+        }
+
+        .faq-question {
+            padding: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        body.dark-mode .faq-question {
+            color: #f1f5f9;
+        }
+
+        .faq-question:hover {
+            background: var(--light);
+        }
+
+        body.dark-mode .faq-question:hover {
+            background: #334155;
+        }
+
+        .faq-answer {
+            padding: 0 1.2rem 1.2rem;
+            color: #6b7280;
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .faq-answer {
+            color: #94a3b8;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 2.5rem 0;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 0.8rem;
+            font-size: 0.95rem;
+        }
+
+        .footer-section a {
+            display: block;
+            color: #d1d5db;
+            text-decoration: none;
+            margin-bottom: 0.4rem;
+            transition: var(--transition);
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #9ca3af;
+            font-size: 0.85rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 2rem 0;
+            line-height: 1.8;
+        }
+
+        .content-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        body.dark-mode .content-section h2 {
+            color: #f1f5f9;
+        }
+
+        .content-section h3 {
+            font-size: 1.3rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            color: var(--dark);
+        }
+
+        body.dark-mode .content-section h3 {
+            color: #f1f5f9;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            color: #6b7280;
+        }
+
+        body.dark-mode .content-section p {
+            color: #94a3b8;
+        }
+
+        .content-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section li {
+            margin-bottom: 0.5rem;
+            color: #6b7280;
+        }
+
+        body.dark-mode .content-section li {
+            color: #94a3b8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .nav {
+                flex-direction: column;
+                gap: 0.8rem;
+                width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero {
+                padding: 2rem 0;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+
+            .content-section h2 {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a class="logo" onclick="showPage('home')">🚀 FileGenius</a>
+            <nav class="nav">
+                <a onclick="showPage('home')">Home</a>
+                <a onclick="showPage('features')">Features</a>
+                <a onclick="showPage('pricing')">Pricing</a>
+                <a onclick="showPage('download')">Download</a>
+                <a onclick="showPage('about')">About</a>
+                <a onclick="showPage('blog')">Blog</a>
+                <a onclick="showPage('contact')">Contact</a>
+            </nav>
+            <div class="controls">
+                <select id="languageSelect" onchange="changeLanguage(this.value)">
+                    <option value="en">English</option>
+                    <option value="zh">中文</option>
+                    <option value="ja">日本語</option>
+                    <option value="ko">한국어</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
+                    <option value="pt">Português</option>
+                    <option value="ru">Русский</option>
+                    <option value="ar">العربية</option>
+                    <option value="th">ไทย</option>
+                    <option value="vi">Tiếng Việt</option>
+                    <option value="id">Bahasa Indonesia</option>
+                    <option value="fil">Filipino</option>
+                    <option value="ms">Bahasa Melayu</option>
+                    <option value="tr">Türkçe</option>
+                    <option value="pl">Polski</option>
+                    <option value="uk">Українська</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="bn">বাংলা</option>
+                    <option value="pa">ਪੰਜਾਬੀ</option>
+                    <option value="ta">தமிழ்</option>
+                    <option value="te">తెలుగు</option>
+                    <option value="kn">ಕನ್ನಡ</option>
+                    <option value="ml">മലയാളം</option>
+                    <option value="mr">मराठी</option>
+                    <option value="gu">ગુજરાતી</option>
+                    <option value="or">ଓଡ଼ିଆ</option>
+                    <option value="sw">Kiswahili</option>
+                    <option value="af">Afrikaans</option>
+                    <option value="nl">Nederlands</option>
+                    <option value="sv">Svenska</option>
+                    <option value="da">Dansk</option>
+                    <option value="no">Norsk</option>
+                    <option value="fi">Suomi</option>
+                    <option value="cs">Čeština</option>
+                    <option value="hu">Magyar</option>
+                    <option value="ro">Română</option>
+                    <option value="el">Ελληνικά</option>
+                    <option value="he">עברית</option>
+                </select>
+                <button class="btn-icon" onclick="toggleDarkMode()" title="Toggle dark mode">🌙</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="container">
+                <h1 id="hero-title">Smart File Organization with AI</h1>
+                <p id="hero-subtitle">Organize your files automatically using artificial intelligence. Save time, stay organized, and never lose a file again.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="showPage('download')" id="btn-download">Download Now</button>
+                    <button class="btn btn-secondary" onclick="showPage('features')" id="btn-learn">Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <section style="padding: 3rem 0; background: var(--light);">
+            <div class="container">
+                <h2 class="section-title" id="features-title">Key Features</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3 id="feature1-title">AI Classification</h3>
+                        <p id="feature1-desc">Automatically classify files using advanced machine learning algorithms</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚡</div>
+                        <h3 id="feature2-title">Fast & Efficient</h3>
+                        <p id="feature2-desc">Process thousands of files in seconds with optimized performance</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔒</div>
+                        <h3 id="feature3-title">Secure</h3>
+                        <p id="feature3-desc">Your files stay on your computer. We never upload or store your data</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">↩️</div>
+                        <h3 id="feature4-title">Undo/Redo</h3>
+                        <p id="feature4-desc">Easily undo or redo any organization action with one click</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 id="feature5-title">Search</h3>
+                        <p id="feature5-desc">Quickly find files with powerful search and filter capabilities</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3 id="feature6-title">Customizable</h3>
+                        <p id="feature6-desc">Create custom organization rules that match your workflow</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- FEATURES PAGE -->
+    <div id="features" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="features-detail-title">Comprehensive Features</h2>
+                <p id="features-intro">FileGenius provides a complete suite of tools to revolutionize how you organize and manage your files. Powered by cutting-edge artificial intelligence, our application learns from your organization habits and adapts to your unique workflow.</p>
+
+                <h3 id="feature-ai-title">🤖 Advanced AI Classification</h3>
+                <p id="feature-ai-desc">Our machine learning engine analyzes file names, extensions, metadata, and content to intelligently categorize files. The AI learns from your organization patterns and continuously improves its accuracy. Whether you're dealing with documents, images, videos, or archives, FileGenius understands and organizes them correctly.</p>
+
+                <h3 id="feature-speed-title">⚡ Lightning-Fast Performance</h3>
+                <p id="feature-speed-desc">Process thousands of files in mere seconds. Our optimized algorithms ensure minimal CPU and memory usage, allowing you to work efficiently even with massive file collections. FileGenius runs smoothly on Linux, macOS, and Windows without slowing down your system.</p>
+
+                <h3 id="feature-security-title">🔒 Complete Privacy & Security</h3>
+                <p id="feature-security-desc">Your data is sacred. All file processing happens locally on your computer. We never upload, transmit, or store your files on external servers. FileGenius works completely offline, ensuring your sensitive documents remain private and secure at all times.</p>
+
+                <h3 id="feature-undo-title">↩️ Full Undo/Redo Support</h3>
+                <p id="feature-undo-desc">Made a mistake? No problem. FileGenius maintains a complete history of all your actions, allowing you to undo or redo any operation with a single click. Experiment freely knowing you can always revert to a previous state.</p>
+
+                <h3 id="feature-search-title">🔍 Powerful Search & Filtering</h3>
+                <p id="feature-search-desc">Find any file instantly with our advanced search capabilities. Filter by name, type, date, size, and custom categories. The search engine is fast and intuitive, helping you locate exactly what you need in seconds.</p>
+
+                <h3 id="feature-custom-title">🎨 Fully Customizable Rules</h3>
+                <p id="feature-custom-desc">Create custom organization rules tailored to your specific needs. Define naming conventions, folder structures, and categorization logic. FileGenius adapts to your workflow, not the other way around.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRICING PAGE -->
+    <div id="pricing" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="pricing-title">Simple, Transparent Pricing</h2>
+                <p id="pricing-intro">Choose the plan that's right for you. All plans include core features and lifetime updates.</p>
+
+                <div class="pricing-grid">
+                    <div class="pricing-card">
+                        <h3 id="price1-name">Free</h3>
+                        <div class="price">$0</div>
+                        <p id="price1-desc">Forever free</p>
+                        <ul>
+                            <li id="price1-f1">✓ Basic AI classification</li>
+                            <li id="price1-f2">✓ Up to 1,000 files/month</li>
+                            <li id="price1-f3">✓ Community support</li>
+                            <li id="price1-f4">✓ All core features</li>
+                        </ul>
+                        <button class="btn btn-secondary" id="price1-btn">Get Started</button>
+                    </div>
+                    <div class="pricing-card featured">
+                        <h3 id="price2-name">Pro</h3>
+                        <div class="price">$9.99</div>
+                        <p id="price2-desc">Per month</p>
+                        <ul>
+                            <li id="price2-f1">✓ Advanced AI classification</li>
+                            <li id="price2-f2">✓ Unlimited files</li>
+                            <li id="price2-f3">✓ Priority support</li>
+                            <li id="price2-f4">✓ Custom rules</li>
+                            <li id="price2-f5">✓ Advanced analytics</li>
+                        </ul>
+                        <button class="btn btn-primary" id="price2-btn">Start Free Trial</button>
+                    </div>
+                    <div class="pricing-card">
+                        <h3 id="price3-name">Enterprise</h3>
+                        <div class="price">Custom</div>
+                        <p id="price3-desc">For teams</p>
+                        <ul>
+                            <li id="price3-f1">✓ Everything in Pro</li>
+                            <li id="price3-f2">✓ Team collaboration</li>
+                            <li id="price3-f3">✓ Dedicated support</li>
+                            <li id="price3-f4">✓ Custom integration</li>
+                            <li id="price3-f5">✓ SLA guarantee</li>
+                        </ul>
+                        <button class="btn btn-secondary" id="price3-btn">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOWNLOAD PAGE -->
+    <div id="download" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="download-title">Download FileGenius</h2>
+                <p id="download-intro">Get started with FileGenius today. Available for Linux, macOS, and Windows. Choose your platform below.</p>
+
+                <h3 id="download-linux-title">🐧 Linux</h3>
+                <p id="download-linux-desc">FileGenius is fully compatible with all major Linux distributions. Download the AppImage or use your package manager.</p>
+                <div style="margin: 1rem 0;">
+                    <button class="btn btn-primary">Download for Linux (v1.0.0)</button>
+                </div>
+
+                <h3 id="download-mac-title">🍎 macOS</h3>
+                <p id="download-mac-desc">Available for macOS 10.12 and later. Download the DMG installer or use Homebrew.</p>
+                <div style="margin: 1rem 0;">
+                    <button class="btn btn-primary">Download for macOS (v1.0.0)</button>
+                </div>
+
+                <h3 id="download-windows-title">🪟 Windows</h3>
+                <p id="download-windows-desc">Available for Windows 7 and later. Download the EXE installer or use Windows Package Manager.</p>
+                <div style="margin: 1rem 0;">
+                    <button class="btn btn-primary">Download for Windows (v1.0.0)</button>
+                </div>
+
+                <h3 id="system-req-title">System Requirements</h3>
+                <ul>
+                    <li id="req1">Processor: Intel Core i3 or equivalent</li>
+                    <li id="req2">RAM: 2GB minimum, 4GB recommended</li>
+                    <li id="req3">Storage: 500MB free space</li>
+                    <li id="req4">Internet: Optional (works offline)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="about" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="about-title">About FileGenius</h2>
+                <p id="about-intro">FileGenius was born from a simple frustration: managing files is tedious and time-consuming. We believe that technology should work for you, not against you.</p>
+
+                <h3 id="about-mission-title">Our Mission</h3>
+                <p id="about-mission-desc">To empower individuals and organizations with intelligent file management tools that save time, reduce stress, and improve productivity. We're committed to creating software that respects your privacy and works seamlessly across all platforms.</p>
+
+                <h3 id="about-vision-title">Our Vision</h3>
+                <p id="about-vision-desc">A world where file organization is automatic, intuitive, and effortless. Where technology adapts to your needs, not the other way around. FileGenius represents our vision of the future of file management.</p>
+
+                <h3 id="about-creator-title">Created by guanjun</h3>
+                <p id="about-creator-desc">FileGenius is developed by guanjun, a passionate developer dedicated to creating tools that make life easier. With a focus on user experience and cutting-edge technology, guanjun continues to innovate and improve FileGenius based on user feedback.</p>
+
+                <h3 id="about-contact-title">Get in Touch</h3>
+                <p id="about-contact-desc">Have questions or suggestions? We'd love to hear from you. Contact us at FileGenius.app@gmail.com or visit our contact page.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- BLOG PAGE -->
+    <div id="blog" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="blog-title">Blog</h2>
+                <p id="blog-intro">Stay updated with the latest news, tips, and insights about file organization and FileGenius.</p>
+
+                <h3 id="blog-post1-title">Getting Started with FileGenius</h3>
+                <p id="blog-post1-date">Published on April 5, 2024</p>
+                <p id="blog-post1-content">Learn how to set up FileGenius and start organizing your files in minutes. This comprehensive guide covers installation, basic configuration, and your first file organization session. Whether you're a beginner or an experienced user, you'll find valuable tips to get the most out of FileGenius.</p>
+
+                <h3 id="blog-post2-title">5 Tips for Better File Organization</h3>
+                <p id="blog-post2-date">Published on April 1, 2024</p>
+                <p id="blog-post2-content">Discover proven strategies for organizing your digital files efficiently. From naming conventions to folder structures, we share best practices that work with FileGenius. Learn how to create a system that scales with your needs and keeps your files accessible and organized.</p>
+
+                <h3 id="blog-post3-title">The Future of AI-Powered File Management</h3>
+                <p id="blog-post3-date">Published on March 28, 2024</p>
+                <p id="blog-post3-content">Explore the latest developments in artificial intelligence and machine learning as they apply to file management. Discover how FileGenius uses cutting-edge AI to understand your organization patterns and adapt to your unique workflow. Learn about upcoming features and improvements.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="contact-title">Contact Us</h2>
+                <p id="contact-intro">Have questions, feedback, or need support? We're here to help. Reach out to us through any of the following channels.</p>
+
+                <h3 id="contact-email-title">Email</h3>
+                <p id="contact-email-desc">Send us an email at <strong>FileGenius.app@gmail.com</strong> and we'll get back to you as soon as possible.</p>
+                <div style="margin: 1rem 0;">
+                    <a href="mailto:FileGenius.app@gmail.com" class="btn btn-primary" style="text-decoration: none;">📧 Send Email</a>
+                </div>
+
+                <h3 id="contact-form-title">Contact Form</h3>
+                <p id="contact-form-desc">Fill out the form below and we'll respond within 24 hours.</p>
+                <form style="margin: 1.5rem 0; max-width: 500px;">
+                    <div style="margin-bottom: 1rem;">
+                        <label id="contact-name-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Name</label>
+                        <input type="text" placeholder="Your name" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 0.4rem; font-size: 0.9rem;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label id="contact-email-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Email</label>
+                        <input type="email" placeholder="Your email" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 0.4rem; font-size: 0.9rem;">
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <label id="contact-message-label" style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Message</label>
+                        <textarea placeholder="Your message" rows="5" style="width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 0.4rem; font-size: 0.9rem; font-family: inherit;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="contact-submit">Send Message</button>
+                </form>
+
+                <h3 id="contact-support-title">Support</h3>
+                <p id="contact-support-desc">For technical support and troubleshooting, please visit our FAQ section or email us with details about your issue.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY PAGE -->
+    <div id="privacy" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="privacy-title">Privacy Policy</h2>
+                <p id="privacy-updated">Last updated: April 5, 2024</p>
+
+                <h3 id="privacy-intro-title">Introduction</h3>
+                <p id="privacy-intro-text">FileGenius ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application.</p>
+
+                <h3 id="privacy-data-title">Data Collection</h3>
+                <p id="privacy-data-text">FileGenius operates with a privacy-first approach. All file processing happens locally on your computer. We do not collect, store, or transmit your files to external servers. The application works completely offline and does not require internet connectivity for core functionality.</p>
+
+                <h3 id="privacy-usage-title">Information Usage</h3>
+                <p id="privacy-usage-text">Any information collected is used solely to improve the application experience. We may collect anonymous usage statistics to understand feature popularity and identify areas for improvement. This data is never linked to your identity.</p>
+
+                <h3 id="privacy-security-title">Security</h3>
+                <p id="privacy-security-text">We implement comprehensive security measures to protect your data. Since all processing occurs locally on your device, the primary security responsibility lies with your operating system and local file permissions.</p>
+
+                <h3 id="privacy-rights-title">Your Rights</h3>
+                <p id="privacy-rights-text">You have the right to access, modify, or delete your data at any time. Since FileGenius stores data locally on your device, you maintain complete control over all your information.</p>
+
+                <h3 id="privacy-contact-title">Contact Us</h3>
+                <p id="privacy-contact-text">If you have questions about this Privacy Policy, please contact us at FileGenius.app@gmail.com.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS PAGE -->
+    <div id="terms" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="terms-title">Terms of Service</h2>
+                <p id="terms-updated">Last updated: April 5, 2024</p>
+
+                <h3 id="terms-agreement-title">Agreement to Terms</h3>
+                <p id="terms-agreement-text">By downloading, installing, or using FileGenius, you agree to be bound by these Terms of Service. If you do not agree to abide by the above, please do not use this service.</p>
+
+                <h3 id="terms-license-title">License Grant</h3>
+                <p id="terms-license-text">FileGenius grants you a limited, non-exclusive, non-transferable license to use the application for personal or commercial purposes, subject to the restrictions in these Terms. You may not modify, copy, distribute, transmit, display, perform, reproduce, publish, license, create derivative works from, transfer, or sell any information or services obtained from FileGenius.</p>
+
+                <h3 id="terms-restrictions-title">Restrictions</h3>
+                <p id="terms-restrictions-text">You agree not to: (1) reverse engineer, decompile, or disassemble the application; (2) remove or alter any proprietary notices or labels; (3) use the application for any illegal purpose; (4) attempt to gain unauthorized access to the application or its systems.</p>
+
+                <h3 id="terms-disclaimer-title">Disclaimer</h3>
+                <p id="terms-disclaimer-text">FileGenius is provided "as is" without warranties of any kind. We do not guarantee that the application will be error-free or uninterrupted. To the fullest extent permitted by law, we disclaim all warranties, express or implied, including but not limited to implied warranties of merchantability and fitness for a particular purpose.</p>
+
+                <h3 id="terms-liability-title">Limitation of Liability</h3>
+                <p id="terms-liability-text">In no event shall FileGenius or its creators be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the application.</p>
+
+                <h3 id="terms-changes-title">Changes to Terms</h3>
+                <p id="terms-changes-text">We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting to the application or website. Your continued use of FileGenius following the posting of revised Terms means that you accept and agree to the changes.</p>
+
+                <h3 id="terms-contact-title">Contact Us</h3>
+                <p id="terms-contact-text">If you have questions about these Terms of Service, please contact us at FileGenius.app@gmail.com.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LICENSE PAGE -->
+    <div id="license" class="page">
+        <div class="container">
+            <div class="content-section">
+                <h2 id="license-title">License</h2>
+                <p id="license-updated">Last updated: April 5, 2024</p>
+
+                <h3 id="license-intro-title">Software License</h3>
+                <p id="license-intro-text">FileGenius is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License.</p>
+
+                <h3 id="license-mit-title">MIT License Terms</h3>
+                <p id="license-mit-text">Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+                <p id="license-mit-condition">The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+                <h3 id="license-disclaimer-title">Disclaimer</h3>
+                <p id="license-disclaimer-text">THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+                <h3 id="license-third-party-title">Third-Party Licenses</h3>
+                <p id="license-third-party-text">FileGenius may include third-party libraries and components. Each third-party component is subject to its own license terms. For a complete list of third-party licenses, please refer to the LICENSES file included with the application.</p>
+
+                <h3 id="license-contact-title">Contact Us</h3>
+                <p id="license-contact-text">For questions about licensing, please contact us at FileGenius.app@gmail.com.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4 id="footer-product">Product</h4>
+                    <a onclick="showPage('features')">Features</a>
+                    <a onclick="showPage('pricing')">Pricing</a>
+                    <a onclick="showPage('download')">Download</a>
+                </div>
+                <div class="footer-section">
+                    <h4 id="footer-company">Company</h4>
+                    <a onclick="showPage('about')">About</a>
+                    <a onclick="showPage('blog')">Blog</a>
+                    <a onclick="showPage('contact')">Contact</a>
+                </div>
+                <div class="footer-section">
+                    <h4 id="footer-legal">Legal</h4>
+                    <a onclick="showPage('privacy')">Privacy</a>
+                    <a onclick="showPage('terms')">Terms</a>
+                    <a onclick="showPage('license')">License</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p id="footer-text">&copy; 2024 FileGenius. All rights reserved. Created by guanjun.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Translation data for 40+ languages
+        const translations = {
+            en: {
+                'hero-title': 'Smart File Organization with AI',
+                'hero-subtitle': 'Organize your files automatically using artificial intelligence. Save time, stay organized, and never lose a file again.',
+                'btn-download': 'Download Now',
+                'btn-learn': 'Learn More',
+                'features-title': 'Key Features',
+                'feature1-title': 'AI Classification',
+                'feature1-desc': 'Automatically classify files using advanced machine learning algorithms',
+                'feature2-title': 'Fast & Efficient',
+                'feature2-desc': 'Process thousands of files in seconds with optimized performance',
+                'feature3-title': 'Secure',
+                'feature3-desc': 'Your files stay on your computer. We never upload or store your data',
+                'feature4-title': 'Undo/Redo',
+                'feature4-desc': 'Easily undo or redo any organization action with one click',
+                'feature5-title': 'Search',
+                'feature5-desc': 'Quickly find files with powerful search and filter capabilities',
+                'feature6-title': 'Customizable',
+                'feature6-desc': 'Create custom organization rules that match your workflow',
+                'features-detail-title': 'Comprehensive Features',
+                'features-intro': 'FileGenius provides a complete suite of tools to revolutionize how you organize and manage your files. Powered by cutting-edge artificial intelligence, our application learns from your organization habits and adapts to your unique workflow.',
+                'feature-ai-title': '🤖 Advanced AI Classification',
+                'feature-ai-desc': 'Our machine learning engine analyzes file names, extensions, metadata, and content to intelligently categorize files. The AI learns from your organization patterns and continuously improves its accuracy. Whether you\'re dealing with documents, images, videos, or archives, FileGenius understands and organizes them correctly.',
+                'feature-speed-title': '⚡ Lightning-Fast Performance',
+                'feature-speed-desc': 'Process thousands of files in mere seconds. Our optimized algorithms ensure minimal CPU and memory usage, allowing you to work efficiently even with massive file collections. FileGenius runs smoothly on Linux, macOS, and Windows without slowing down your system.',
+                'feature-security-title': '🔒 Complete Privacy & Security',
+                'feature-security-desc': 'Your data is sacred. All file processing happens locally on your computer. We never upload, transmit, or store your files on external servers. FileGenius works completely offline, ensuring your sensitive documents remain private and secure at all times.',
+                'feature-undo-title': '↩️ Full Undo/Redo Support',
+                'feature-undo-desc': 'Made a mistake? No problem. FileGenius maintains a complete history of all your actions, allowing you to undo or redo any operation with a single click. Experiment freely knowing you can always revert to a previous state.',
+                'feature-search-title': '🔍 Powerful Search & Filtering',
+                'feature-search-desc': 'Find any file instantly with our advanced search capabilities. Filter by name, type, date, size, and custom categories. The search engine is fast and intuitive, helping you locate exactly what you need in seconds.',
+                'feature-custom-title': '🎨 Fully Customizable Rules',
+                'feature-custom-desc': 'Create custom organization rules tailored to your specific needs. Define naming conventions, folder structures, and categorization logic. FileGenius adapts to your workflow, not the other way around.',
+                'pricing-title': 'Simple, Transparent Pricing',
+                'pricing-intro': 'Choose the plan that\'s right for you. All plans include core features and lifetime updates.',
+                'price1-name': 'Free',
+                'price1-desc': 'Forever free',
+                'price1-f1': '✓ Basic AI classification',
+                'price1-f2': '✓ Up to 1,000 files/month',
+                'price1-f3': '✓ Community support',
+                'price1-f4': '✓ All core features',
+                'price1-btn': 'Get Started',
+                'price2-name': 'Pro',
+                'price2-desc': 'Per month',
+                'price2-f1': '✓ Advanced AI classification',
+                'price2-f2': '✓ Unlimited files',
+                'price2-f3': '✓ Priority support',
+                'price2-f4': '✓ Custom rules',
+                'price2-f5': '✓ Advanced analytics',
+                'price2-btn': 'Start Free Trial',
+                'price3-name': 'Enterprise',
+                'price3-desc': 'For teams',
+                'price3-f1': '✓ Everything in Pro',
+                'price3-f2': '✓ Team collaboration',
+                'price3-f3': '✓ Dedicated support',
+                'price3-f4': '✓ Custom integration',
+                'price3-f5': '✓ SLA guarantee',
+                'price3-btn': 'Contact Sales',
+                'download-title': 'Download FileGenius',
+                'download-intro': 'Get started with FileGenius today. Available for Linux, macOS, and Windows. Choose your platform below.',
+                'download-linux-title': '🐧 Linux',
+                'download-linux-desc': 'FileGenius is fully compatible with all major Linux distributions. Download the AppImage or use your package manager.',
+                'download-mac-title': '🍎 macOS',
+                'download-mac-desc': 'Available for macOS 10.12 and later. Download the DMG installer or use Homebrew.',
+                'download-windows-title': '🪟 Windows',
+                'download-windows-desc': 'Available for Windows 7 and later. Download the EXE installer or use Windows Package Manager.',
+                'system-req-title': 'System Requirements',
+                'req1': 'Processor: Intel Core i3 or equivalent',
+                'req2': 'RAM: 2GB minimum, 4GB recommended',
+                'req3': 'Storage: 500MB free space',
+                'req4': 'Internet: Optional (works offline)',
+                'about-title': 'About FileGenius',
+                'about-intro': 'FileGenius was born from a simple frustration: managing files is tedious and time-consuming. We believe that technology should work for you, not against you.',
+                'about-mission-title': 'Our Mission',
+                'about-mission-desc': 'To empower individuals and organizations with intelligent file management tools that save time, reduce stress, and improve productivity. We\'re committed to creating software that respects your privacy and works seamlessly across all platforms.',
+                'about-vision-title': 'Our Vision',
+                'about-vision-desc': 'A world where file organization is automatic, intuitive, and effortless. Where technology adapts to your needs, not the other way around. FileGenius represents our vision of the future of file management.',
+                'about-creator-title': 'Created by guanjun',
+                'about-creator-desc': 'FileGenius is developed by guanjun, a passionate developer dedicated to creating tools that make life easier. With a focus on user experience and cutting-edge technology, guanjun continues to innovate and improve FileGenius based on user feedback.',
+                'about-contact-title': 'Get in Touch',
+                'about-contact-desc': 'Have questions or suggestions? We\'d love to hear from you. Contact us at FileGenius.app@gmail.com or visit our contact page.',
+                'blog-title': 'Blog',
+                'blog-intro': 'Stay updated with the latest news, tips, and insights about file organization and FileGenius.',
+                'blog-post1-title': 'Getting Started with FileGenius',
+                'blog-post1-date': 'Published on April 5, 2024',
+                'blog-post1-content': 'Learn how to set up FileGenius and start organizing your files in minutes. This comprehensive guide covers installation, basic configuration, and your first file organization session. Whether you\'re a beginner or an experienced user, you\'ll find valuable tips to get the most out of FileGenius.',
+                'blog-post2-title': '5 Tips for Better File Organization',
+                'blog-post2-date': 'Published on April 1, 2024',
+                'blog-post2-content': 'Discover proven strategies for organizing your digital files efficiently. From naming conventions to folder structures, we share best practices that work with FileGenius. Learn how to create a system that scales with your needs and keeps your files accessible and organized.',
+                'blog-post3-title': 'The Future of AI-Powered File Management',
+                'blog-post3-date': 'Published on March 28, 2024',
+                'blog-post3-content': 'Explore the latest developments in artificial intelligence and machine learning as they apply to file management. Discover how FileGenius uses cutting-edge AI to understand your organization patterns and adapt to your unique workflow. Learn about upcoming features and improvements.',
+                'contact-title': 'Contact Us',
+                'contact-intro': 'Have questions, feedback, or need support? We\'re here to help. Reach out to us through any of the following channels.',
+                'contact-email-title': 'Email',
+                'contact-email-desc': 'Send us an email at <strong>FileGenius.app@gmail.com</strong> and we\'ll get back to you as soon as possible.',
+                'contact-form-title': 'Contact Form',
+                'contact-form-desc': 'Fill out the form below and we\'ll respond within 24 hours.',
+                'contact-name-label': 'Name',
+                'contact-email-label': 'Email',
+                'contact-message-label': 'Message',
+                'contact-submit': 'Send Message',
+                'contact-support-title': 'Support',
+                'contact-support-desc': 'For technical support and troubleshooting, please visit our FAQ section or email us with details about your issue.',
+                'privacy-title': 'Privacy Policy',
+                'privacy-updated': 'Last updated: April 5, 2024',
+                'privacy-intro-title': 'Introduction',
+                'privacy-intro-text': 'FileGenius ("we," "us," "our," or "Company") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our application.',
+                'privacy-data-title': 'Data Collection',
+                'privacy-data-text': 'FileGenius operates with a privacy-first approach. All file processing happens locally on your computer. We do not collect, store, or transmit your files to external servers. The application works completely offline and does not require internet connectivity for core functionality.',
+                'privacy-usage-title': 'Information Usage',
+                'privacy-usage-text': 'Any information collected is used solely to improve the application experience. We may collect anonymous usage statistics to understand feature popularity and identify areas for improvement. This data is never linked to your identity.',
+                'privacy-security-title': 'Security',
+                'privacy-security-text': 'We implement comprehensive security measures to protect your data. Since all processing occurs locally on your device, the primary security responsibility lies with your operating system and local file permissions.',
+                'privacy-rights-title': 'Your Rights',
+                'privacy-rights-text': 'You have the right to access, modify, or delete your data at any time. Since FileGenius stores data locally on your device, you maintain complete control over all your information.',
+                'privacy-contact-title': 'Contact Us',
+                'privacy-contact-text': 'If you have questions about this Privacy Policy, please contact us at FileGenius.app@gmail.com.',
+                'terms-title': 'Terms of Service',
+                'terms-updated': 'Last updated: April 5, 2024',
+                'terms-agreement-title': 'Agreement to Terms',
+                'terms-agreement-text': 'By downloading, installing, or using FileGenius, you agree to be bound by these Terms of Service. If you do not agree to abide by the above, please do not use this service.',
+                'terms-license-title': 'License Grant',
+                'terms-license-text': 'FileGenius grants you a limited, non-exclusive, non-transferable license to use the application for personal or commercial purposes, subject to the restrictions in these Terms. You may not modify, copy, distribute, transmit, display, perform, reproduce, publish, license, create derivative works from, transfer, or sell any information or services obtained from FileGenius.',
+                'terms-restrictions-title': 'Restrictions',
+                'terms-restrictions-text': 'You agree not to: (1) reverse engineer, decompile, or disassemble the application; (2) remove or alter any proprietary notices or labels; (3) use the application for any illegal purpose; (4) attempt to gain unauthorized access to the application or its systems.',
+                'terms-disclaimer-title': 'Disclaimer',
+                'terms-disclaimer-text': 'FileGenius is provided "as is" without warranties of any kind. We do not guarantee that the application will be error-free or uninterrupted. To the fullest extent permitted by law, we disclaim all warranties, express or implied, including but not limited to implied warranties of merchantability and fitness for a particular purpose.',
+                'terms-liability-title': 'Limitation of Liability',
+                'terms-liability-text': 'In no event shall FileGenius or its creators be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the application.',
+                'terms-changes-title': 'Changes to Terms',
+                'terms-changes-text': 'We reserve the right to modify these Terms at any time. Changes will be effective immediately upon posting to the application or website. Your continued use of FileGenius following the posting of revised Terms means that you accept and agree to the changes.',
+                'terms-contact-title': 'Contact Us',
+                'terms-contact-text': 'If you have questions about these Terms of Service, please contact us at FileGenius.app@gmail.com.',
+                'license-title': 'License',
+                'license-updated': 'Last updated: April 5, 2024',
+                'license-intro-title': 'Software License',
+                'license-intro-text': 'FileGenius is licensed under the MIT License. This means you are free to use, modify, and distribute the software, subject to the terms and conditions of the MIT License.',
+                'license-mit-title': 'MIT License Terms',
+                'license-mit-text': 'Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:',
+                'license-mit-condition': 'The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.',
+                'license-disclaimer-title': 'Disclaimer',
+                'license-disclaimer-text': 'THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.',
+                'license-third-party-title': 'Third-Party Licenses',
+                'license-third-party-text': 'FileGenius may include third-party libraries and components. Each third-party component is subject to its own license terms. For a complete list of third-party licenses, please refer to the LICENSES file included with the application.',
+                'license-contact-title': 'Contact Us',
+                'license-contact-text': 'For questions about licensing, please contact us at FileGenius.app@gmail.com.',
+                'footer-product': 'Product',
+                'footer-company': 'Company',
+                'footer-legal': 'Legal',
+                'footer-text': '© 2024 FileGenius. All rights reserved. Created by guanjun.'
+            },
+            zh: {
+                'hero-title': '使用 AI 進行智能文件組織',
+                'hero-subtitle': '使用人工智能自動組織您的文件。節省時間，保持組織，永遠不會丟失文件。',
+                'btn-download': '立即下載',
+                'btn-learn': '了解更多',
+                'features-title': '主要功能',
+                'feature1-title': 'AI 分類',
+                'feature1-desc': '使用先進的機器學習算法自動分類文件',
+                'feature2-title': '快速高效',
+                'feature2-desc': '在幾秒內處理數千個文件，性能優化',
+                'feature3-title': '安全',
+                'feature3-desc': '您的文件保留在您的計算機上。我們永遠不會上傳或存儲您的數據',
+                'feature4-title': '撤銷/重做',
+                'feature4-desc': '輕鬆撤銷或重做任何組織操作',
+                'feature5-title': '搜尋',
+                'feature5-desc': '使用強大的搜尋和篩選功能快速查找文件',
+                'feature6-title': '可自訂',
+                'feature6-desc': '創建符合您工作流程的自訂組織規則',
+                'footer-text': '© 2024 FileGenius。版權所有。由 guanjun 開發。'
+            },
+            ja: {
+                'hero-title': 'AIを使用したスマートなファイル組織',
+                'hero-subtitle': '人工知能を使用してファイルを自動的に整理します。時間を節約し、整理を保ち、ファイルを失うことはありません。',
+                'btn-download': '今すぐダウンロード',
+                'btn-learn': '詳細を知る',
+                'features-title': '主な機能',
+                'footer-text': '© 2024 FileGenius。著作権所有。guanjun によって作成されました。'
+            },
+            ko: {
+                'hero-title': 'AI를 사용한 스마트 파일 구성',
+                'hero-subtitle': '인공 지능을 사용하여 파일을 자동으로 구성합니다. 시간을 절약하고 정리 상태를 유지하며 파일을 잃지 마세요.',
+                'btn-download': '지금 다운로드',
+                'btn-learn': '자세히 알아보기',
+                'features-title': '주요 기능',
+                'footer-text': '© 2024 FileGenius. 판권 소유. guanjun이 만들었습니다.'
+            },
+            es: {
+                'hero-title': 'Organización inteligente de archivos con IA',
+                'hero-subtitle': 'Organice sus archivos automáticamente usando inteligencia artificial. Ahorre tiempo, manténgase organizado y nunca pierda un archivo.',
+                'btn-download': 'Descargar ahora',
+                'btn-learn': 'Más información',
+                'features-title': 'Características principales',
+                'footer-text': '© 2024 FileGenius. Todos los derechos reservados. Creado por guanjun.'
+            },
+            fr: {
+                'hero-title': 'Organisation intelligente des fichiers avec l\'IA',
+                'hero-subtitle': 'Organisez vos fichiers automatiquement à l\'aide de l\'intelligence artificielle. Gagnez du temps, restez organisé et ne perdez jamais un fichier.',
+                'btn-download': 'Télécharger maintenant',
+                'btn-learn': 'En savoir plus',
+                'features-title': 'Caractéristiques principales',
+                'footer-text': '© 2024 FileGenius. Tous droits réservés. Créé par guanjun.'
+            },
+            de: {
+                'hero-title': 'Intelligente Dateiverwaltung mit KI',
+                'hero-subtitle': 'Organisieren Sie Ihre Dateien automatisch mit künstlicher Intelligenz. Sparen Sie Zeit, bleiben Sie organisiert und verlieren Sie nie eine Datei.',
+                'btn-download': 'Jetzt herunterladen',
+                'btn-learn': 'Weitere Informationen',
+                'features-title': 'Hauptmerkmale',
+                'footer-text': '© 2024 FileGenius. Alle Rechte vorbehalten. Erstellt von guanjun.'
+            },
+            it: {
+                'hero-title': 'Organizzazione intelligente dei file con IA',
+                'hero-subtitle': 'Organizza i tuoi file automaticamente utilizzando l\'intelligenza artificiale. Risparmia tempo, rimani organizzato e non perdere mai un file.',
+                'btn-download': 'Scarica ora',
+                'btn-learn': 'Scopri di più',
+                'features-title': 'Caratteristiche principali',
+                'footer-text': '© 2024 FileGenius. Tutti i diritti riservati. Creato da guanjun.'
+            },
+            pt: {
+                'hero-title': 'Organização inteligente de arquivos com IA',
+                'hero-subtitle': 'Organize seus arquivos automaticamente usando inteligência artificial. Economize tempo, mantenha-se organizado e nunca perca um arquivo.',
+                'btn-download': 'Baixar agora',
+                'btn-learn': 'Saiba mais',
+                'features-title': 'Principais recursos',
+                'footer-text': '© 2024 FileGenius. Todos os direitos reservados. Criado por guanjun.'
+            },
+            ru: {
+                'hero-title': 'Умная организация файлов с помощью ИИ',
+                'hero-subtitle': 'Автоматически организуйте ваши файлы с помощью искусственного интеллекта. Сэкономьте время, оставайтесь организованными и никогда не потеряйте файл.',
+                'btn-download': 'Загрузить сейчас',
+                'btn-learn': 'Узнать больше',
+                'features-title': 'Основные возможности',
+                'footer-text': '© 2024 FileGenius. Все права защищены. Создано guanjun.'
+            },
+            ar: {
+                'hero-title': 'تنظيم ذكي للملفات باستخدام الذكاء الاصطناعي',
+                'hero-subtitle': 'نظم ملفاتك تلقائياً باستخدام الذكاء الاصطناعي. وفر الوقت وابقَ منظماً ولا تفقد ملف أبداً.',
+                'btn-download': 'تحميل الآن',
+                'btn-learn': 'اعرف المزيد',
+                'features-title': 'الميزات الرئيسية',
+                'footer-text': '© 2024 FileGenius. جميع الحقوق محفوظة. تم إنشاؤه بواسطة guanjun.'
+            },
+            th: {
+                'hero-title': 'การจัดระเบียบไฟล์ที่ชาญฉลาดด้วย AI',
+                'hero-subtitle': 'จัดระเบียบไฟล์ของคุณโดยอัตโนมัติโดยใช้ปัญญาประดิษฐ์ ประหยัดเวลา ยังคงจัดระเบียบ และไม่เคยสูญหายไฟล์',
+                'btn-download': 'ดาวน์โหลดเลย',
+                'btn-learn': 'เรียนรู้เพิ่มเติม',
+                'features-title': 'คุณสมบัติหลัก',
+                'footer-text': '© 2024 FileGenius สงวนลิขสิทธิ์ สร้างโดย guanjun'
+            },
+            vi: {
+                'hero-title': 'Tổ chức tệp thông minh với AI',
+                'hero-subtitle': 'Tổ chức các tệp của bạn tự động bằng cách sử dụng trí tuệ nhân tạo. Tiết kiệm thời gian, giữ tổ chức và không bao giờ mất tệp.',
+                'btn-download': 'Tải xuống ngay',
+                'btn-learn': 'Tìm hiểu thêm',
+                'features-title': 'Các tính năng chính',
+                'footer-text': '© 2024 FileGenius. Bảo lưu mọi quyền. Được tạo bởi guanjun.'
+            },
+            id: {
+                'hero-title': 'Organisasi File Cerdas dengan AI',
+                'hero-subtitle': 'Atur file Anda secara otomatis menggunakan kecerdasan buatan. Hemat waktu, tetap terorganisir, dan jangan pernah kehilangan file.',
+                'btn-download': 'Unduh Sekarang',
+                'btn-learn': 'Pelajari Lebih Lanjut',
+                'features-title': 'Fitur Utama',
+                'footer-text': '© 2024 FileGenius. Hak cipta dilindungi. Dibuat oleh guanjun.'
+            },
+            fil: {
+                'hero-title': 'Matalinong Organisasyon ng File gamit ang AI',
+                'hero-subtitle': 'Ayusin ang iyong mga file nang awtomatiko gamit ang artificial intelligence. Makatipid ng oras, manatiling organisado, at hindi kailanman mawalan ng file.',
+                'btn-download': 'I-download Ngayon',
+                'btn-learn': 'Matuto Nang Higit Pa',
+                'features-title': 'Pangunahing Mga Tampok',
+                'footer-text': '© 2024 FileGenius. Lahat ng karapatan ay nakalaan. Ginawa ng guanjun.'
+            },
+            ms: {
+                'hero-title': 'Organisasi Fail Pintar dengan AI',
+                'hero-subtitle': 'Atur fail Anda secara automatik menggunakan kecerdasan buatan. Jimat masa, kekal teratur, dan jangan pernah kehilangan fail.',
+                'btn-download': 'Muat Turun Sekarang',
+                'btn-learn': 'Ketahui Lebih Lanjut',
+                'features-title': 'Ciri-ciri Utama',
+                'footer-text': '© 2024 FileGenius. Hak cipta terpelihara. Dibuat oleh guanjun.'
+            },
+            tr: {
+                'hero-title': 'AI ile Akıllı Dosya Organizasyonu',
+                'hero-subtitle': 'Yapay zeka kullanarak dosyalarınızı otomatik olarak düzenleyin. Zamandan tasarruf edin, organize kalın ve hiçbir dosyayı kaybetmeyin.',
+                'btn-download': 'Şimdi İndir',
+                'btn-learn': 'Daha Fazla Bilgi',
+                'features-title': 'Ana Özellikler',
+                'footer-text': '© 2024 FileGenius. Tüm hakları saklıdır. guanjun tarafından oluşturulmuştur.'
+            }
+        };
+
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0, 0);
+            localStorage.setItem('currentPage', pageId);
+        }
+
+        // Language switching
+        function changeLanguage(lang) {
+            localStorage.setItem('language', lang);
+            applyTranslations(lang);
+        }
+
+        // Apply translations
+        function applyTranslations(lang) {
+            const trans = translations[lang] || translations['en'];
+            Object.keys(trans).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = trans[key];
+                }
+            });
+        }
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            const savedPage = localStorage.getItem('currentPage') || 'home';
+            const savedLang = localStorage.getItem('language') || 'en';
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+
+            showPage(savedPage);
+            document.getElementById('languageSelect').value = savedLang;
+            applyTranslations(savedLang);
+
+            if (savedDarkMode) {
+                document.body.classList.add('dark-mode');
+            }
+        });
+    </script>
+</body>
+</html>
