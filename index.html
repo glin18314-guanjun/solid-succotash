@@ -215,6 +215,69 @@
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        /* 動畫定義 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--light);
@@ -354,8 +417,9 @@
 
         /* Hero Section */
         .hero {
-            padding: 4rem 0;
+            padding: 6rem 2rem;
             text-align: center;
+            animation: fadeInUp 0.8s ease-out;
         }
 
         .hero h1 {
@@ -364,6 +428,7 @@
             margin-bottom: 1rem;
             line-height: 1.2;
             color: var(--dark);
+            animation: slideInLeft 0.8s ease-out 0.1s both;
         }
 
         body.dark-mode .hero h1 {
@@ -377,6 +442,7 @@
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
+            animation: slideInRight 0.8s ease-out 0.2s both;
         }
 
         body.dark-mode .hero p {
@@ -388,6 +454,7 @@
             gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
+            animation: scaleIn 0.8s ease-out 0.3s both;
         }
 
         .btn {
@@ -429,8 +496,10 @@
             font-size: 2rem;
             font-weight: 800;
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            margin-top: 3rem;
             color: var(--dark);
+            animation: fadeInUp 0.8s ease-out;
         }
 
         body.dark-mode .section-title {
@@ -441,17 +510,25 @@
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
         .feature-card {
             background: white;
-            padding: 1.5rem;
-            border-radius: 0.6rem;
+            padding: 2rem;
+            border-radius: 0.8rem;
             border: 2px solid #000000;
             transition: var(--transition);
+            animation: fadeInUp 0.8s ease-out;
         }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
 
         body.dark-mode .feature-card {
             background: white;
@@ -517,18 +594,23 @@
         .pricing-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: 2rem;
+            margin: 3rem 0;
         }
 
         .pricing-card {
             background: white;
-            padding: 1.5rem;
-            border-radius: 0.6rem;
+            padding: 2rem;
+            border-radius: 0.8rem;
             border: 2px solid var(--border);
             text-align: center;
             transition: var(--transition);
+            animation: fadeInUp 0.8s ease-out;
         }
+
+        .pricing-card:nth-child(1) { animation-delay: 0.1s; }
+        .pricing-card:nth-child(2) { animation-delay: 0.2s; }
+        .pricing-card:nth-child(3) { animation-delay: 0.3s; }
 
         body.dark-mode .pricing-card {
             background: #1e293b;
@@ -578,11 +660,17 @@
         .faq-item {
             background: white;
             border: 1px solid var(--border);
-            border-radius: 0.6rem;
-            margin-bottom: 1rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1.5rem;
             overflow: hidden;
             transition: var(--transition);
+            animation: fadeInUp 0.8s ease-out;
         }
+
+        .faq-item:nth-child(1) { animation-delay: 0.1s; }
+        .faq-item:nth-child(2) { animation-delay: 0.2s; }
+        .faq-item:nth-child(3) { animation-delay: 0.3s; }
+        .faq-item:nth-child(4) { animation-delay: 0.4s; }
 
         body.dark-mode .faq-item {
             background: #1e293b;
@@ -590,7 +678,7 @@
         }
 
         .faq-question {
-            padding: 1.2rem;
+            padding: 1.5rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -613,11 +701,11 @@
         }
 
         .faq-answer {
-            padding: 0 1.2rem 1.2rem;
+            padding: 0 1.5rem 1.5rem;
             color: #6b7280;
             max-height: 0;
             overflow: hidden;
-            transition: var(--transition);
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
         }
 
         body.dark-mode .faq-answer {
